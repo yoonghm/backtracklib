@@ -68,27 +68,36 @@ Source: [xkcd](https://xkcd.com/287/)
 ~~~python
 from backtracklib import Solver
 
+apetizers = {
+    'Mixed Fruit'      : 215,
+    'Frence Fries'     : 275,
+    'Side Salad'       : 335,
+    'Hot Wings'        : 355,
+    'Mozzarella Sticks': 420,
+    'Sampler Plate'    : 580
+}
+
 def total(parcial):
-	total = 0
-	for elem in parcial:
-		total += elem.price
-	return total
+    total = 0
+    for elem in parcial:
+        total += apetizers[elem]
+    return total
 
 def basecase(parcial):
-	if total(parcial) == "1505":
-		return True
-	return False
+    if total(parcial) == 1505:
+        return True
+    return False
 
 def calculate_posibles(parcial):
-	posibles = []
-	for elem in apetizers:	# apetizers should be a list of objects that have a price atribute
-		if total(parcial) + elem.price <= 1505:
-			posibles.append(elem)
-	return posibles
-			
+    posibles = []
+    for fruit, price in apetizers.items():
+        if total(parcial) + price <= 1505:
+            posibles.append(fruit)
+    return posibles
+            
 
 gen = Solver(calculate_posibles, basecase)
-answers = gen.solve(num_answers=4, threading=True)	# explicit solving
+answers = gen.solve(num_answers=4, threading=True)[0]  # explicit solving
 
 ~~~
 
